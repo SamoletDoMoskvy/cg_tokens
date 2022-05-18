@@ -4,11 +4,16 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-sgiuc!3ed-t-bl0jkc$i5szhr7b0(^)65irkx7lc+wk(%somp2'
+SECRET_KEY = os.environ.get('BACKEND_SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.1.90", 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    "192.168.1.90",
+    'localhost',
+    '127.0.0.1',
+    '0.0.0.0',
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -55,14 +60,16 @@ WSGI_APPLICATION = 'cg_tokens.wsgi.application'
 
 
 # DATABASE SETTINGS
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'USER': os.environ.get('DATABASE_ORIGIN_USER'),
+        'PASSWORD': os.environ.get('DATABASE_ORIGIN_PASS'),
+        'HOST': os.environ.get('DATABASE_HOST'),
+        'PORT': os.environ.get('DATABASE_PORT'),
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -93,10 +100,6 @@ STATIC_ROOT = BASE_DIR / "static"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # PAGINATION SETTINGS
-# PAGE_SIZE = int(os.environ.get('PAGE_SIZE'))
-# PAGE_SIZE_QUERY_PARAM = str(os.environ.get('PAGE_SIZE_QUERY_PARAM'))
-# MAX_PAGE_SIZE = int(os.environ.get('MAX_PAGE_SIZE'))
-
-PAGE_SIZE = 5
-PAGE_SIZE_QUERY_PARAM = 'page_size'
-MAX_PAGE_SIZE = 10
+PAGE_SIZE = int(os.environ.get('PAGE_SIZE'))
+PAGE_SIZE_QUERY_PARAM = str(os.environ.get('PAGE_SIZE_QUERY_PARAM'))
+MAX_PAGE_SIZE = int(os.environ.get('MAX_PAGE_SIZE'))
