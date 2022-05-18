@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+
+    database:
+        container_name: ${DATABASE_SERVICE_NAME}
+        image: postgres:alpine
+        restart: always
+        environment:
+          POSTGRES_USER: ${DATABASE_ORIGIN_USER}
+          POSTGRES_PASSWORD: ${DATABASE_ORIGIN_PASS}
+          POSTGRES_DB: ${DATABASE_NAME}
+        volumes:
+          - pg_data:/var/lib/postgresql/data
+        expose:
+          - ${DATABASE_PORT}
+
+    backend:
+        container_name: ${BACKEND_SERVICE_NAME}
+        restart: always
+        build:
+          context: .
+        env_file: .env
+        volumes:
+          - static_data:/app/static
+        depends_on:
+          - database
+        expose:
+          - ${BACKEND_PORT}
+        command: sh -c "gunicorn --bind 0.0.0.0:8000 cg_tokens.wsgi"
+
+    http-server:
+        container_name: ${HTTP_SERVER_SERVICE_NAME}
+        restart: always
+        build: ./nginx
+        volumes:
+          - static_data:/usr/share/nginx/static
+        depends_on:
+          - backend
+        ports:
+          - "${HTTP_SERVER_PORT}:${HTTP_SERVER_PORT}"
+
+volumes:
+  pg_data:
+  static_data:

@@ -7,5 +7,5 @@ from django.urls import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('tokens/', include('tokens_app.urls')),
+    path('api/', include('cg_tokens.api')),
 ]
