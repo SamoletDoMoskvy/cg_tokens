@@ -29,3 +29,6 @@ class TokenModelAdmin(ModelAdmin):
         '_created_at',
         '_updated_at'
     )
+    ordering = (
+        'price_in_dollars',
+    )

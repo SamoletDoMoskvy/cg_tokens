@@ -22,8 +22,11 @@ class TokenModelViewSet(ModelViewSet):
         )
 
     def update_tokens(self, request):
+        """
+        Мэдскиллз - запуск логики парсера через эндпоинт
+        """
         parse_coingecko_tokens()
         return Response(
-            data='Update in progress',
+            data='Updated',
             status=HTTP_200_OK,
         )
