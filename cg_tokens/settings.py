@@ -8,12 +8,7 @@ SECRET_KEY = os.environ.get('BACKEND_SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    "192.168.1.90",
-    'localhost',
-    '127.0.0.1',
-    '0.0.0.0',
-]
+ALLOWED_HOSTS = ['*', ]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -24,6 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 3d party-extensions
     'rest_framework',
+    'corsheaders',
     # Applications
     'tokens_app',
 ]
@@ -36,7 +32,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+# CORS settings
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'cg_tokens.urls'
 
@@ -63,11 +63,11 @@ WSGI_APPLICATION = 'cg_tokens.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DATABASE_NAME'),
-        'USER': os.environ.get('DATABASE_ORIGIN_USER'),
-        'PASSWORD': os.environ.get('DATABASE_ORIGIN_PASS'),
-        'HOST': os.environ.get('DATABASE_HOST'),
-        'PORT': os.environ.get('DATABASE_PORT'),
+        'NAME': 'cg_database',
+        'USER': 'master',
+        'PASSWORD': '1234567890',
+        'HOST': 'cg-database',
+        'PORT': '5432',
     }
 }
 
